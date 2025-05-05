@@ -24,8 +24,11 @@ No Reddit API keys, no OAuth — just basic file editing!
 
 3. Paste this list into a new file called `subreddits.txt` in **VS Code** or any text editor.
 
+
 4. Use **Find and Replace** to remove unwanted prefixes (like `leave`):
 
+   ![Find and Replace](image-1.png)
+   
    ![Find and Replace](image-2.png)
 
 ✅ You should now have a **clean list** of subreddit names, one per line.
