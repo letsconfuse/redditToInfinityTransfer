@@ -98,5 +98,3 @@ Enjoy your subscribed subreddits without logging in! 🎉
 This project is open source, created by [letsconfuse](https://github.com/letsconfuse).
 
 If you have suggestions for improvement, run into issues, or want to share better ways to achieve this — feel free to open an issue or pull request.
-
-Let’s make it better together and help others who need this solution!
