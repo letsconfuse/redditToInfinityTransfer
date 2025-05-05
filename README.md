@@ -55,6 +55,8 @@ python getData.py
 
 ✅ This will generate `subreddits.json`.
 
+3. Open `subreddits.json` and **copy everything inside**:
+
    ![Generated JSON](image-3.png)
 
 ---
@@ -67,13 +69,13 @@ python getData.py
 
 2. Inside the extracted folder, open `anonymous_subscribed_subreddits.json`.
 
-3. Replace its entire content with the JSON you copied from `subreddits.json` (created by getData.py).
+3. Replace its contents with the copied JSON from `subreddits.json`.
 
 4. Save the file.
 
 ---
 
-### 5️⃣ Repackage and Restore Backup
+### 5️⃣ Repackage Backup
 
 1. Zip the folder back again (same structure, no extra folder levels):
 
@@ -85,8 +87,16 @@ python getData.py
 | `7.5.0/`                                                             | Unzipped folder from backup   |
 | `7.5.0.zip`                                                          | **Final zip** to import back  |
 
-2. Copy the final zip back to your phone.
-3. Open the **Infinity app** → Go to `Hamburger Menu > Settings > Advanced > Restore Settings`.
-4. Select your modified ZIP file to restore.
+✅ Now restore this modified backup in the **Infinity app** → Settings → Restore Settings.
 
-Done! Now your Infinity app will show your subscribed subreddits — without logging into Reddit.
+Enjoy your subscribed subreddits without logging in! 🎉
+
+---
+
+## 🙌 Notes & Feedback
+
+This project is open source, created by [letsconfuse](https://github.com/letsconfuse).
+
+If you have suggestions for improvement, run into issues, or want to share better ways to achieve this — feel free to open an issue or pull request.
+
+Let’s make it better together and help others who need this solution!
