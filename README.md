@@ -36,7 +36,7 @@ No Reddit API keys, no OAuth — just basic file editing!
 
 1. On your mobile device, open the **Infinity** app.
 2. Go to:
-   `Hamburger Menu > Settings > Advanced > Restore Settings`
+   `Hamburger Menu > Settings > Advanced > Backup Settings`
 3. A backup ZIP will be created (default password: `123321`).
 4. Copy the backup ZIP file to your PC.
 
@@ -44,48 +44,7 @@ No Reddit API keys, no OAuth — just basic file editing!
 
 ### 3️⃣ Generate Subreddit JSON
 
-#### `getData.py` script:
 
-```python
-import json
-import requests
-
-# Step 1: Read subreddit names from file
-with open("subreddits.txt", "r") as file:
-    subreddit_names = [line.strip() for line in file if line.strip()]
-
-# Step 2: Function to fetch subreddit info
-def fetch_subreddit_info(subreddit_name):
-    url = f"https://www.reddit.com/r/{subreddit_name}/about.json"
-    headers = {'User-Agent': 'Mozilla/5.0'}
-
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        data = response.json()
-        return {
-            "favorite": False,
-            "iconUrl": data['data'].get('icon_img', ''),
-            "id": data['data']['name'],  # e.g., t5_xxxxx
-            "name": data['data']['display_name'],
-            "username": "-"
-        }
-    else:
-        print(f"Error fetching data for: {subreddit_name}")
-        return None
-
-# Step 3: Fetch info for all subreddits
-subreddits_info = []
-for name in subreddit_names:
-    info = fetch_subreddit_info(name)
-    if info:
-        subreddits_info.append(info)
-
-# Step 4: Write to JSON
-with open("subreddits.json", "w") as outfile:
-    json.dump(subreddits_info, outfile)
-
-print("✅ subreddits.json created successfully.")
-```
 
 1. Place `subreddits.txt` and `getData.py` in the same folder.
 2. Run:
@@ -95,8 +54,6 @@ python getData.py
 ```
 
 ✅ This will generate `subreddits.json`.
-
-3. Open `subreddits.json` and **copy everything inside**:
 
    ![Generated JSON](image-3.png)
 
@@ -110,13 +67,13 @@ python getData.py
 
 2. Inside the extracted folder, open `anonymous_subscribed_subreddits.json`.
 
-3. Replace its contents with the copied JSON from `subreddits.json`.
+3. Replace its entire content with the JSON you copied from `subreddits.json` (created by getData.py).
 
 4. Save the file.
 
 ---
 
-### 5️⃣ Repackage Backup
+### 5️⃣ Repackage and Restore Backup
 
 1. Zip the folder back again (same structure, no extra folder levels):
 
@@ -128,6 +85,8 @@ python getData.py
 | `7.5.0/`                                                             | Unzipped folder from backup   |
 | `7.5.0.zip`                                                          | **Final zip** to import back  |
 
-✅ Now restore this modified backup in the **Infinity app** → Settings → Restore Settings.
+2. Copy the final zip back to your phone.
+3. Open the **Infinity app** → Go to `Hamburger Menu > Settings > Advanced > Restore Settings`.
+4. Select your modified ZIP file to restore.
 
-Enjoy your subscribed subreddits without logging in! 🎉
+Done! Now your Infinity app will show your subscribed subreddits — without logging into Reddit.
