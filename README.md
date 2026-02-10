@@ -1,103 +1,62 @@
-# 📥 Transfer Your Reddit Subscriptions to Infinity (Without Login)
+# Reddit to Infinity Subscription Transfer
 
-This guide allows you to transfer your Reddit subscribed subreddits to the **Infinity for Reddit** app **without logging in**, using your exported subreddit list and a simple JSON replacement.
+A technical utility for migrating Reddit subreddit subscriptions to the Infinity for Reddit mobile application without requiring OAuth or API-based authentication. This tool leverages manual data extraction and Infinity's local backup system to achieve a seamless migration.
 
----
+## Architecture Overview
 
-## ✅ Overview
+The migration protocol follows a four-stage process:
+1. **Extraction**: Harvesting raw subreddit strings from Reddit's legacy web interface.
+2. **Standardization**: Normalizing extracted data into a line-delimited text format.
+3. **Transformation**: Using a Python utility to fetch metadata (IDs, icons) from Reddit's Public API and generating a compatible JSON payload.
+4. **Integration**: Injecting the generated JSON into an encrypted Infinity settings backup for local restoration.
 
-We’ll export your subreddit list from Reddit’s website, convert it to JSON, and inject it into Infinity’s settings backup file.
+## Prerequisites
 
-No Reddit API keys, no OAuth — just basic file editing!
+- **Python Runtime**: 3.x installed.
+- **Dependencies**: `requests` library.
+  ```bash
+  pip install requests
+  ```
+- **Infinity for Reddit**: Mobile application installed with an existing local backup.
 
----
+## Execution Protocol
 
-## 🚀 Steps
-
-### 1️⃣ Export Your Subreddit List
-
-1. Open [https://old.reddit.com/subreddits/mine/](https://old.reddit.com/subreddits/mine/) in your browser.
-
-2. Select the list of your subscribed subreddits (as shown in the screenshot):
-
+### 1. Data Acquisition
+1. Navigate to [old.reddit.com/subreddits/mine/](https://old.reddit.com/subreddits/mine/).
+2. Extract the list of subscribed subreddits.
    ![Select Subreddits](image.png)
-
-3. Paste this list into a new file called `subreddits.txt` in **VS Code** or any text editor.
-
-
-4. Use **Find and Replace** to remove unwanted prefixes (like `leave`):
-
+3. Save the raw list as `subreddits.txt` in the project root.
+4. Normalize the file by ensuring it contains one subreddit name per line (strip prefixes like "leave").
    ![Find and Replace](image-1.png)
-   
    ![Find and Replace](image-2.png)
 
-✅ You should now have a **clean list** of subreddit names, one per line.
+### 2. Environment Configuration
+Ensure `getData.py` and `subreddits.txt` are in the same directory. The script requires network access to fetch subreddit metadata from Reddit's public endpoints.
 
----
-
-### 2️⃣ Export Infinity Settings
-
-1. On your mobile device, open the **Infinity** app.
-2. Go to:
-   `Hamburger Menu > Settings > Advanced > Backup Settings`
-3. A backup ZIP will be created (default password: `123321`).
-4. Copy the backup ZIP file to your PC.
-
----
-
-### 3️⃣ Generate Subreddit JSON
-
-
-
-1. Place `subreddits.txt` and `getData.py` in the same folder.
-2. Run:
-
+### 3. Data Transformation
+Execute the transformation script:
 ```bash
 python getData.py
 ```
+This generates `subreddits.json`, containing the standardized objects required by Infinity.
+![Generated JSON](image-3.png)
 
-✅ This will generate `subreddits.json`.
-
-3. Open `subreddits.json` and **copy everything inside**:
-
-   ![Generated JSON](image-3.png)
-
----
-
-### 4️⃣ Modify Infinity Backup
-
-1. Extract the backup ZIP file (password: `123321`):
-
+### 4. Integration with Infinity
+1. Generate an Infinity settings backup on your mobile device (default password: `123321`).
+2. Transfer the backup ZIP to your workstation and extract it.
    ![Extract Backup](image-4.png)
-
-2. Inside the extracted folder, open `anonymous_subscribed_subreddits.json`.
-
-3. Replace its contents with the copied JSON from `subreddits.json`.
-
-4. Save the file.
-
----
-
-### 5️⃣ Repackage Backup
-
-1. Zip the folder back again (same structure, no extra folder levels):
-
+3. Locate `anonymous_subscribed_subreddits.json` within the extracted structure.
+4. Replace the entire contents of this file with the data from `subreddits.json`.
+5. Re-compress the structure into a ZIP format, maintaining the original directory hierarchy.
    ![Zip Folder](image-5.png)
+6. Restore the modified backup in the Infinity app under **Advanced > Restore Settings**.
 
-| File                                                                 | Description                   |
-| -------------------------------------------------------------------- | ----------------------------- |
-| `Infinity_For_Reddit_Settings_Backup_v7.5.0-192-20250505-121658.zip` | Original backup from Infinity |
-| `7.5.0/`                                                             | Unzipped folder from backup   |
-| `7.5.0.zip`                                                          | **Final zip** to import back  |
+## Data Privacy and Security
 
-✅ Now restore this modified backup in the **Infinity app** → Settings → Restore Settings.
+- **Local Execution**: All data processing and file modification occur locally on your machine.
+- **No Private API Access**: The protocol does not require Reddit login credentials or OAuth tokens.
+- **Backup Integrity**: Always maintain an original copy of your Infinity backup before modification.
 
-Enjoy your subscribed subreddits without logging in! 🎉
+## Disclaimer
 
----
-
-## 🙌 Notes & Feedback
-
-This project is open source, created by [letsconfuse](https://github.com/letsconfuse).
-
-If you have suggestions for improvement, run into issues, or want to share better ways to achieve this — feel free to open an issue or pull request.
+This project is an independent utility and is not affiliated with Reddit Inc. or the developers of Infinity for Reddit. Users are responsible for ensuring the backup modification process follows their device's security guidelines.
